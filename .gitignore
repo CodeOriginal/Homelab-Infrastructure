@@ -1,0 +1,19 @@
+# Never commit real env or secrets
+.env
+.env.*
+!*.example
+*.key
+*.crt
+*.pem
+acme.json
+
+# Runtime data locations (live on hosts under /srv/…)
+**/data/**
+**/logs/**
+**/backup/**
+
+# Editor/OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

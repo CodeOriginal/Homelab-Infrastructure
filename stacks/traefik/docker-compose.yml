@@ -1,0 +1,40 @@
+---
+name: traefik
+services:
+
+# Traefik Reverse Proxy
+  traefik:
+    image: traefik:v3
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8880:8080"
+    volumes:
+      - "/srv/infra/traefik/letsencrypt:/letsencrypt"
+      - "./config/traefik.yaml:/etc/traefik/traefik.yaml"
+      - "./config/rules.yaml:/etc/traefik/rules.yaml"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - CF_API_EMAIL=${CF_API_EMAIL}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      - LEGO_DISABLE_CNAME_SUPPORT=${LEGO_DISABLE_CNAME_SUPPORT}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+    restart: unless-stopped
+
+  authentik_proxy:
+    image: ghcr.io/goauthentik/proxy:2025.12
+    # Optionally specify the container's network, which must be able to reach the core authentik server.
+    ports:
+        - 9002:9000
+        - 9443:9443
+
+networks:
+  default:
+    name: proxy
+    external: true

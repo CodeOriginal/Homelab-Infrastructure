@@ -1,0 +1,80 @@
+---
+services: 
+  # Uptime-Kuma monitoring service
+  uptime-kuma:
+    image: louislam/uptime-kuma:2.1.0-beta.0
+    container_name: uptime-kuma
+    restart: unless-stopped
+    volumes:
+      - /srv/infra/uptime-kuma/data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - "3001:3001"
+    networks:
+      - default
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.uptime-kuma.rule=Host(`uptimekuma.burgoyne.casa`)||Host(`status.burgoyne.casa`)"
+      - "traefik.http.routers.uptime-kuma.entrypoints=websecure"
+      - "traefik.http.services.uptime-kuma.loadbalancer.server.port=3001"
+      - "traefik.http.routers.uptime-kuma.service=uptime-kuma"
+      - "traefik.http.routers.uptime-kuma.tls.certresolver=letsencrypt"
+
+  # MariaDB database for Uptime-Kuma
+  uptime-kuma-mariadb:
+    image: mariadb
+    container_name: uptime-kuma-mariadb
+    restart: always
+    volumes:
+      - /srv/infra/uptime-kuma/db:/var/lib/mysql:Z
+    environment:
+      MARIADB_DATABASE: uptime-kuma
+      MARIADB_USER: uptime-kuma
+    #   MARIADB_PASSWORD_FILE: /run/secrets/mariadb_db_password
+    #   MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb_root_password
+    # secrets:
+    #   - mariadb_root_password
+    #   - mariadb_db_password
+
+  # Signal CLI REST API for Uptime-Kuma notifications
+  uptime-kuma-signal-api:
+    image: bbernhard/signal-cli-rest-api:latest
+    container_name: uptime-kuma-signal-api
+    environment:
+      - MODE=normal #supported modes: json-rpc, native, normal
+      #- AUTO_RECEIVE_SCHEDULE=0 22 * * * #enable this parameter on demand (see description below)
+    volumes:
+      - "/srv/infra/signal-api/config:/home/.local/share/signal-cli" #map "signal-cli-config" folder on host system into docker container. the folder contains the password and cryptographic keys when a new number is registered
+    ports:
+      - "8280:8080"
+    networks:
+      - default
+      - proxy
+
+  # Adminer database management tool
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - default
+      - proxy
+    ports:
+      - 8680:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.adminer.rule=Host(`adminer.burgoyne.casa`)"
+      - "traefik.http.routers.adminer.entrypoints=websecure"
+      - "traefik.http.routers.adminer.service=adminer"
+      - "traefik.http.routers.adminer.tls.certresolver=letsencrypt"
+
+networks:
+  default:
+    name: uptime-kuma
+  proxy:
+    external: true
+# secrets:
+#    mariadb_db_password:
+#      file: secrets/uptime_kuma-mariadb_db_password.txt
+#    mariadb_root_password:
+#      file: secrets/uptime_kuma-mariadb_root_password.txt

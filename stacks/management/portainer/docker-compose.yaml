@@ -1,0 +1,33 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:lts
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - portainer_data:/data
+    labels:
+      # Frontend
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer_frontend.rule=Host(`portainer.burgoyne.casa`)"
+      - "traefik.http.routers.portainer_frontend.entrypoints=websecure"
+      - "traefik.http.services.portainer_frontend.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer_frontend.service=portainer_frontend"
+      - "traefik.http.routers.portainer_frontend.tls.certresolver=letsencrypt"
+      
+      # # Edge
+      # - "traefik.http.routers.portainer_edge.rule=Host(`edge.burgoyne.casa`)"
+      # - "traefik.http.routers.portainer_edge.entrypoints=websecure"
+      # - "traefik.http.services.portainer_edge.loadbalancer.server.port=8000"
+      # - "traefik.http.routers.portainer_edge.service=portainer_edge"
+      # - "traefik.http.routers.portainer_edge.tls.certresolver=letsencrypt"
+    networks:
+      - proxy
+
+volumes:
+  portainer_data:
+    external: true
+networks:
+  proxy:
+    external: true

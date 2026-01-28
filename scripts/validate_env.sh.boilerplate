@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Validate a .env file contains required keys for infra stacks.
+# Usage: ./scripts/validate_env.sh path/to/.env
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 path/to/.env" >&2
+  exit 2
+fi
+
+ENV_FILE="$1"
+if [[ ! -f "$ENV_FILE" ]]; then
+  echo "Error: $ENV_FILE not found" >&2
+  exit 2
+fi
+
+# Add or remove keys as needed for your environment.
+# Example keys for monitoring/management hostnames and timezone.
+REQUIRED_KEYS=(
+  "TZ"
+  "KUMA_HOST"
+  "NETALERTX_HOST"
+  "PORTAINER_HOST"
+)
+
+missing=0
+while IFS= read -r key; do
+  if ! grep -Eq "^${key}=" "$ENV_FILE"; then
+    echo "Missing key: ${key}"
+    missing=$((missing + 1))
+  fi
+done < <(printf "%s\n" "${REQUIRED_KEYS[@]}")
+
+if [[ $missing -gt 0 ]]; then
+  echo "Validation failed: ${missing} key(s) missing in ${ENV_FILE}" >&2
+  exit 1
+fi
+
+echo "OK: ${ENV_FILE} contains required keys."
+``

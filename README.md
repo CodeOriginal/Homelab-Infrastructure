@@ -1,8 +1,25 @@
-Homelab Configurations
-========================
+# homelab-infra
 
-Systems Administration
-----------------------
+Core infrastructure stacks for Traefik, Monitoring, and Management.
+
+## Komodo Mapping
+Create 3 Stacks (pointing to this repo) with these paths:
+- /stacks/infra/traefik
+- /stacks/infra/monitoring
+- /stacks/infra/management
+
+Define variables/secrets in Komodo; it will write .env files at deploy-time.
+
+## Host Data Paths
+Traefik ACME, dashboards DBs, etc. live on hosts:
+- /srv/traefik/letsencrypt
+- /srv/uptime-kuma/data
+- /srv/netalertx/{config,db,log}
+- /srv/portainer/data
+
+## Homelab Services
+
+8Systems Administration
 
 ### Management Tools
 - Authentik - Identity Provider

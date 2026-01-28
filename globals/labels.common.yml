@@ -1,0 +1,20 @@
+# Reusable label anchors you can import in compose files with YAML anchors/aliases.
+# Example usage in a service:
+#
+# x-labels: &proxy-labels
+#   traefik.enable: "true"
+#   traefik.http.routers.myapp.entrypoints: "${TRAEFIK_ENTRYPOINT_WEBSECURE}"
+#   traefik.http.routers.myapp.tls.certresolver: "${TRAEFIK_CERT_RESOLVER}"
+#
+# services:
+#   myapp:
+#     labels:
+#       <<: *proxy-labels
+#       traefik.http.routers.myapp.rule: "Host(`${MYAPP_HOST}`)"
+
+x-labels: &proxy-labels
+  traefik.enable: "true"
+  traefik.http.routers.__APP__.entrypoints: "${TRAEFIK_ENTRYPOINT_WEBSECURE}"
+  traefik.http.routers.__APP__.tls: "true"
+  traefik.http.routers.__APP__.tls.certresolver: "${TRAEFIK_CERT_RESOLVER}"
+  traefik.http.routers.__APP__.rule: "Host(`__APP__.burgoyne.casa`)"
