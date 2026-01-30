@@ -30,6 +30,8 @@ services:
   authentik_proxy:
     image: ghcr.io/goauthentik/proxy:2025.12
     container_name: authentik-outpost
+    env_file:
+      - .env
     ports:
         - 9002:9000
         - 9443:9443
