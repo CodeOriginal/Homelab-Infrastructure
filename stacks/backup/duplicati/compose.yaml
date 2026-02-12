@@ -1,0 +1,25 @@
+---
+services:
+  duplicati:
+    image: lscr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Denver
+      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_SETTINGS_ENCRYPTION_KEY}
+      - CLI_ARGS= #optional
+      - DUPLICATI__WEBSERVICE_PASSWORD= #optional
+    volumes:
+      - /srv/infra/duplicati/config:/config
+      # - /path/to/backups:/backups
+      - /mnt/h/data/media/photos:/source
+    ports:
+      - 8200:8200
+    labels:
+      traefik.enable: true
+      traefik.http.routers.duplicati.entrypoints: websecure
+      traefik.http.routers.duplicati.rule: Host(`duplicati.burgoyne.casa`)
+      traefik.http.routers.duplicati.tls: true
+      traefik.http.routers.duplicati.tls.certresolver: letsencrypt
+    restart: unless-stopped
