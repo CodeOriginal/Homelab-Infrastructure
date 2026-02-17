@@ -16,6 +16,8 @@ services:
       - /mnt/h/data/media/photos:/source
     ports:
       - 8200:8200
+    networks:
+      - proxy
     labels:
       traefik.enable: true
       traefik.http.routers.duplicati.entrypoints: websecure
