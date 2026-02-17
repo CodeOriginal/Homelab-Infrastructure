@@ -26,6 +26,6 @@ services:
       traefik.http.routers.duplicati.tls.certresolver: letsencrypt
     restart: unless-stopped
 
-netowrks:
+networks:
   proxy:
     external: true 
