@@ -1,5 +1,11 @@
 http:
   routers:
+    traefik:
+      tls:
+        certresolver: letsencrypt
+        domains:
+          main: burgoyne.casa
+          sans: *.burgoyne.casa
     homeAssistant: 
       entryPoints:
         - websecure
