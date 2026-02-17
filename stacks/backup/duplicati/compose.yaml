@@ -23,3 +23,7 @@ services:
       traefik.http.routers.duplicati.tls: true
       traefik.http.routers.duplicati.tls.certresolver: letsencrypt
     restart: unless-stopped
+
+netowrks:
+  proxy:
+    external: true 

@@ -10,7 +10,7 @@ acme.json
 # Runtime data locations (live on hosts under /srv/…)
 **/data/**
 **/logs/**
-**/backup/**
+
 
 # Editor/OS
 .DS_Store
