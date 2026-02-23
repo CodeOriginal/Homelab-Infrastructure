@@ -10,7 +10,10 @@ acme.json
 # Runtime data locations (live on hosts under /srv/…)
 **/data/**
 **/logs/**
+<<<<<<< HEAD
 
+=======
+>>>>>>> 11e8e12 (Add stack name to Komodo stack)
 
 # Editor/OS
 .DS_Store

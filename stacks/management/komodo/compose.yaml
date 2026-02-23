@@ -6,7 +6,7 @@
 ##   1. MongoDB
 ##   2. Komodo Core
 ##   3. Komodo Periphery
-
+name: hl-infra-komodo
 services:
   mongo:
     image: mongo
