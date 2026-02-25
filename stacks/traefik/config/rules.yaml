@@ -5,7 +5,7 @@ http:
         certresolver: letsencrypt
         domains:
           main: burgoyne.casa
-          sans: *.burgoyne.casa
+          sans: "*.burgoyne.casa"
     homeAssistant: 
       entryPoints:
         - websecure
