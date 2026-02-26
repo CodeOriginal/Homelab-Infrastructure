@@ -6,7 +6,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - portainer_data:/data
+      - /srv/infra/portainer:/data
     labels:
       # Frontend
       - "traefik.enable=true"
