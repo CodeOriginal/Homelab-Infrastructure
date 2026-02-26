@@ -39,24 +39,29 @@ http:
       tls: 
         certresolver: letsencrypt
     mailcow-acme:
-      entryPoints: web
+      entryPoints: 
+        - web
       rule: "((Host(`mx.burgoyne.casa`) || Host(`mail.burgoyne.casa`) || Host(`autoconfig.burgoyne.casa`) || Host(`autodiscover.burgoyne.casa`)) && PathPrefix(`/.well-known/acme-challenge/`))" # "Host" should be equal to your `MAILCOW_HOSTNAME` 
       service: mailcow-acme
-      tls: false
+      tls: 
+        enabled: false
     mailcow-frontend:
-      entryPoints: "websecure"
+      entryPoints: 
+        - websecure
       rule: "Host(`mail.burgoyne.casa`)"
       service: mailcow-frontend
       tls:
         certResolver: letsencrypt
     mailcow-autoconfig:
-      entryPoints: "websecure"
+      entryPoints: 
+        - websecure
       rule: "Host(`autoconfig.burgoyne.casa`)" 
       service: mailcow-frontend
       tls:
         certResolver: letsencrypt
     mailcow-autodiscover:
-      entryPoints: "websecure"
+      entryPoints: 
+        - websecure
       rule: "Host(`autodiscover.burgoyne.casa`)"
       service: mailcow-frontend
       tls:
