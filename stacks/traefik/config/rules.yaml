@@ -2,10 +2,12 @@
 http:
   routers:
     traefik:
+      entryPoints:
+        - websecure
       rule: Host(`traefik.burgoyne.casa`)
       service: api@internal
       tls:
-        certresolver: letsencrypt
+        certResolver: letsencrypt
         domains:
           - main: burgoyne.casa
             sans: 
@@ -16,35 +18,33 @@ http:
       service: homeAssistant
       rule: Host(`home.burgoyne.casa`) || Host(`ha.burgoyne.casa`)
       tls: 
-        certresolver: letsencrypt
+        certResolver: letsencrypt
     qbittorrent:
       entryPoints:
         - websecure
       service: qbittorrent
       rule: Host(`qbittorrent.burgoyne.casa`)
       tls: 
-        certresolver: letsencrypt
+        certResolver: letsencrypt
     plex: 
       entryPoints:
         - websecure
       service: plex
       rule: Host(`plex.burgoyne.casa`) || Host(`watch.burgoyne.casa`)
       tls: 
-        certresolver: letsencrypt
+        certResolver: letsencrypt
     authentik:
       entryPoints:
         - websecure
       service: authentik
       rule: Host(`authentik.burgoyne.casa`) || Host(`auth.burgoyne.casa`)
       tls: 
-        certresolver: letsencrypt
+        certResolver: letsencrypt
     mailcow-acme:
       entryPoints: 
         - web
       rule: "((Host(`mx.burgoyne.casa`) || Host(`mail.burgoyne.casa`) || Host(`autoconfig.burgoyne.casa`) || Host(`autodiscover.burgoyne.casa`)) && PathPrefix(`/.well-known/acme-challenge/`))" # "Host" should be equal to your `MAILCOW_HOSTNAME` 
       service: mailcow-acme
-      tls: 
-        enabled: false
     mailcow-frontend:
       entryPoints: 
         - websecure
