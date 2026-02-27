@@ -24,10 +24,10 @@ serversTransport:
   insecureSkipVerify: true
 
 providers:
-  # docker: 
-  #   endpoint: "unix:///var/run/docker.sock"
-  #   exposedByDefault: false
-  #   network: proxy
+  docker: 
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: proxy
   file:
     directory: /etc/traefik
     watch: true
