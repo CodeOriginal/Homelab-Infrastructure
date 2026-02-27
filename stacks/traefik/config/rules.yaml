@@ -12,86 +12,86 @@ http:
           - main: burgoyne.casa
             sans: 
               - "*.burgoyne.casa"
-    homeAssistant: 
-      entryPoints:
-        - websecure
-      service: homeAssistant
-      rule: Host(`home.burgoyne.casa`) || Host(`ha.burgoyne.casa`)
-      tls: 
-        certResolver: letsencrypt
-    qbittorrent:
-      entryPoints:
-        - websecure
-      service: qbittorrent
-      rule: Host(`qbittorrent.burgoyne.casa`)
-      tls: 
-        certResolver: letsencrypt
-    plex: 
-      entryPoints:
-        - websecure
-      service: plex
-      rule: Host(`plex.burgoyne.casa`) || Host(`watch.burgoyne.casa`)
-      tls: 
-        certResolver: letsencrypt
-    authentik:
-      entryPoints:
-        - websecure
-      service: authentik
-      rule: Host(`authentik.burgoyne.casa`) || Host(`auth.burgoyne.casa`)
-      tls: 
-        certResolver: letsencrypt
-    mailcow-acme:
-      entryPoints: 
-        - web
-      rule: "((Host(`mx.burgoyne.casa`) || Host(`mail.burgoyne.casa`) || Host(`autoconfig.burgoyne.casa`) || Host(`autodiscover.burgoyne.casa`)) && PathPrefix(`/.well-known/acme-challenge/`))" # "Host" should be equal to your `MAILCOW_HOSTNAME` 
-      service: mailcow-acme
-    mailcow-frontend:
-      entryPoints: 
-        - websecure
-      rule: "Host(`mail.burgoyne.casa`)"
-      service: mailcow-frontend
-      tls:
-        certResolver: letsencrypt
-    mailcow-autoconfig:
-      entryPoints: 
-        - websecure
-      rule: "Host(`autoconfig.burgoyne.casa`)" 
-      service: mailcow-frontend
-      tls:
-        certResolver: letsencrypt
-    mailcow-autodiscover:
-      entryPoints: 
-        - websecure
-      rule: "Host(`autodiscover.burgoyne.casa`)"
-      service: mailcow-frontend
-      tls:
-        certResolver: letsencrypt
-  services:
-    homeAssistant:
-      loadBalancer:
-        servers:
-          - url: http://192.168.10.10:8123
-        passHostHeader: true
-    qbittorrent:
-      loadBalancer:
-        servers:
-          - url: http://192.168.10.13:8080
-        passHostHeader: false
-    plex:
-      loadBalancer:
-        servers:
-          - url: http://192.168.10.13:32400
-        passHostHeader: true
-    authentik:
-      loadBalancer:
-        servers:
-          - url: http://192.168.10.14:9000
-        passHostHeader: false
-    mailcow-acme:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.10.14:8880" # mailcow local IP and web port
-    mailcow-frontend:
-      loadBalancer:
-        servers:
-          - url: "http://192.168.10.14:8880" # mailcow local IP and web port
+  #   homeAssistant: 
+  #     entryPoints:
+  #       - websecure
+  #     service: homeAssistant
+  #     rule: Host(`home.burgoyne.casa`) || Host(`ha.burgoyne.casa`)
+  #     tls: 
+  #       certResolver: letsencrypt
+  #   qbittorrent:
+  #     entryPoints:
+  #       - websecure
+  #     service: qbittorrent
+  #     rule: Host(`qbittorrent.burgoyne.casa`)
+  #     tls: 
+  #       certResolver: letsencrypt
+  #   plex: 
+  #     entryPoints:
+  #       - websecure
+  #     service: plex
+  #     rule: Host(`plex.burgoyne.casa`) || Host(`watch.burgoyne.casa`)
+  #     tls: 
+  #       certResolver: letsencrypt
+  #   authentik:
+  #     entryPoints:
+  #       - websecure
+  #     service: authentik
+  #     rule: Host(`authentik.burgoyne.casa`) || Host(`auth.burgoyne.casa`)
+  #     tls: 
+  #       certResolver: letsencrypt
+  #   mailcow-acme:
+  #     entryPoints: 
+  #       - web
+  #     rule: "((Host(`mx.burgoyne.casa`) || Host(`mail.burgoyne.casa`) || Host(`autoconfig.burgoyne.casa`) || Host(`autodiscover.burgoyne.casa`)) && PathPrefix(`/.well-known/acme-challenge/`))" # "Host" should be equal to your `MAILCOW_HOSTNAME` 
+  #     service: mailcow-acme
+  #   mailcow-frontend:
+  #     entryPoints: 
+  #       - websecure
+  #     rule: "Host(`mail.burgoyne.casa`)"
+  #     service: mailcow-frontend
+  #     tls:
+  #       certResolver: letsencrypt
+  #   mailcow-autoconfig:
+  #     entryPoints: 
+  #       - websecure
+  #     rule: "Host(`autoconfig.burgoyne.casa`)" 
+  #     service: mailcow-frontend
+  #     tls:
+  #       certResolver: letsencrypt
+  #   mailcow-autodiscover:
+  #     entryPoints: 
+  #       - websecure
+  #     rule: "Host(`autodiscover.burgoyne.casa`)"
+  #     service: mailcow-frontend
+  #     tls:
+  #       certResolver: letsencrypt
+  # services:
+  #   homeAssistant:
+  #     loadBalancer:
+  #       servers:
+  #         - url: http://192.168.10.10:8123
+  #       passHostHeader: true
+  #   qbittorrent:
+  #     loadBalancer:
+  #       servers:
+  #         - url: http://192.168.10.13:8080
+  #       passHostHeader: false
+  #   plex:
+  #     loadBalancer:
+  #       servers:
+  #         - url: http://192.168.10.13:32400
+  #       passHostHeader: true
+  #   authentik:
+  #     loadBalancer:
+  #       servers:
+  #         - url: http://192.168.10.14:9000
+  #       passHostHeader: false
+  #   mailcow-acme:
+  #     loadBalancer:
+  #       servers:
+  #         - url: "http://192.168.10.14:8880" # mailcow local IP and web port
+  #   mailcow-frontend:
+  #     loadBalancer:
+  #       servers:
+  #         - url: "http://192.168.10.14:8880" # mailcow local IP and web port
