@@ -1,4 +1,5 @@
 ---
+name: hl-infra-duplicati
 services:
   duplicati:
     image: lscr.io/linuxserver/duplicati:latest
