@@ -1,10 +1,13 @@
 # yaml-language-server: $schema=https://www.schemastore.org/traefik-v3.json
+
 log:
   level: INFO
+
 api:
   dashboard: true
-  insecure: true
+  insecure: false
   debug: false
+
 entryPoints:
   web:
     address: ":80"
@@ -16,8 +19,10 @@ entryPoints:
   websecure:
     address: ":443"
     asDefault: true
+
 serversTransport:
   insecureSkipVerify: true
+
 providers:
   docker: 
     endpoint: "unix:///var/run/docker.sock"
@@ -26,6 +31,7 @@ providers:
   file:
     directory: /etc/traefik
     watch: true
+
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -35,3 +41,10 @@ certificatesResolvers:
       dnsChallenge:
         provider: cloudflare
         # delayBeforeCheck: 5
+
+tls:
+  certificates:
+    - certResolver: letsencrypt
+      domains:
+        - main: "burgoyne.casa"
+          sans: ["*.burgoyne.casa"]
