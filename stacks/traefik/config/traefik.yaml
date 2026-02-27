@@ -41,10 +41,4 @@ certificatesResolvers:
       dnsChallenge:
         provider: cloudflare
         # delayBeforeCheck: 5
-
-tls:
-  certificates:
-    - certResolver: letsencrypt
-      domains:
-        - main: "burgoyne.casa"
-          sans: ["*.burgoyne.casa"]
+      
