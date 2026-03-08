@@ -31,11 +31,7 @@ services:
     environment:
       MARIADB_DATABASE: uptime-kuma
       MARIADB_USER: uptime-kuma
-    #   MARIADB_PASSWORD_FILE: /run/secrets/mariadb_db_password
-    #   MARIADB_ROOT_PASSWORD_FILE: /run/secrets/mariadb_root_password
-    # secrets:
-    #   - mariadb_root_password
-    #   - mariadb_db_password
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?error}
 
   # Signal CLI REST API for Uptime-Kuma notifications
   uptime-kuma-signal-api:
