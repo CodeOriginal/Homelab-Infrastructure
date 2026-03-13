@@ -1,17 +1,17 @@
 # yaml-language-server: $schema=https://json.schemastore.org/traefik-v2-file-provider.json
 http:
   routers:
-    # traefik:
-     # entryPoints:
-      #  - websecure
-    #  rule: Host(`traefik.burgoyne.casa`)
-    #  service: api@internal
-    #  tls:
-      #  certResolver: letsencrypt
-     #   domains:
-    #      - main: burgoyne.casa
-    #       sans: 
-     #         - "*.burgoyne.casa"
+    traefik:
+     entryPoints:
+       - websecure
+     rule: Host(`traefik.burgoyne.casa`)
+     service: api@internal
+     tls:
+        certResolver: letsencrypt
+        domains:
+          - main: burgoyne.casa
+            sans: 
+              - "*.burgoyne.casa"
     homeAssistant: 
       entryPoints:
         - websecure
